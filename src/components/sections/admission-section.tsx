@@ -29,13 +29,18 @@ export function AdmissionSection() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="name">শিক্ষার্থীর নাম:</Label>
-                <Input id="name" name="name" required placeholder="নাম লিখুন" />
+                <Input
+                  id="name"
+                  name="Student_Name"
+                  required
+                  placeholder="নাম লিখুন"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="father_name">পিতার নাম:</Label>
                 <Input
                   id="father_name"
-                  name="father_name"
+                  name="Father_Name"
                   required
                   placeholder="পিতার নাম"
                 />
@@ -46,14 +51,21 @@ export function AdmissionSection() {
                 <Label htmlFor="mobile">মোবাইল নাম্বার:</Label>
                 <Input
                   id="mobile"
-                  name="mobile"
+                  name="Mobile_Number"
                   required
                   placeholder="017xxxxxxxx"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="age">বয়স (নূন্যতম ১৮):</Label>
-                <Input id="age" name="age" type="number" min="18" required />
+                <Input
+                  id="age"
+                  name="Age"
+                  type="number"
+                  min="18"
+                  required
+                  placeholder="বয়স লিখুন"
+                />
               </div>
             </div>
             <div className="space-y-2">
@@ -62,13 +74,13 @@ export function AdmissionSection() {
               </Label>
               <Input
                 id="education"
-                name="education"
+                name="Educational_Qualification"
                 placeholder="SSC / HSC / Class 8"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="course">কোর্স সিলেক্ট করুন:</Label>
-              <Select name="course">
+              <Select name="Selected_Course">
                 <SelectTrigger id="course">
                   <SelectValue placeholder="একটি কোর্স সিলেক্ট করুন" />
                 </SelectTrigger>
@@ -91,7 +103,7 @@ export function AdmissionSection() {
               <Label htmlFor="address">ঠিকানা:</Label>
               <Textarea
                 id="address"
-                name="address"
+                name="Address"
                 rows={3}
                 placeholder="গ্রাম, ডাকঘর, থানা..."
               />
