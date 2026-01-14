@@ -26,8 +26,8 @@
     },
     {
       "id": "teacher3",
-      "description": "Photo of a computer teacher",
-      "imageUrl": "https://images.unsplash.com/photo-1498758536662-35b82cd15e29?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwY29tcHV0ZXJ8ZW58MHx8fHwxNzY4MzY3NjUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Photo of Md. Ishak Ali",
+      "imageUrl": "https://res.cloudinary.com/djginu4oz/image/upload/v1768368792/file_000000005d7c720693345c659f1ebcfa_gpzcyc.png",
       "imageHint": "man computer"
     }
   ]

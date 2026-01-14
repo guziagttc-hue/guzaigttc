@@ -1,25 +1,124 @@
+
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
-import { Car, User } from 'lucide-react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Car, User, X } from 'lucide-react';
+import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { SectionWrapper } from '../section-wrapper';
 import { SectionTitle } from '../section-title';
 
-const TeacherCard = ({
-  name,
-  role,
-  imgId,
-  icon,
-}: {
+type TeacherInfo = {
   name: string;
   role?: string;
   imgId?: string;
   icon?: React.ReactNode;
+  bio?: {
+    education?: string;
+    experience?: string;
+    specialty?: string;
+  };
+};
+
+const teachers: {
+  board: TeacherInfo[];
+  computer: TeacherInfo[];
+  other: TeacherInfo[];
+} = {
+  board: [
+    {
+      name: 'মো: মশিফুকর রহমান (জিহাদ)',
+      role: 'অধ্যক্ষ',
+      imgId: 'principal',
+      bio: {
+        education: 'বি.এস.এস (অনার্স)',
+        experience: '১০ বছরের অভিজ্ঞতা',
+        specialty: 'প্রতিষ্ঠান পরিচালনা',
+      },
+    },
+    {
+      name: '[পরিচালকের নাম]',
+      role: 'পরিচালক',
+      imgId: 'director',
+      bio: {
+        education: 'শিক্ষাগত যোগ্যতা',
+        experience: 'অভিজ্ঞতা',
+        specialty: 'বিশেষত্ব',
+      },
+    },
+  ],
+  computer: [
+    {
+      name: 'কম্পিউটার শিক্ষক ১',
+      imgId: 'teacher1',
+      bio: {
+        education: 'ডিপ্লোমা ইন কম্পিউটার',
+        experience: '৫ বছরের অভিজ্ঞতা',
+        specialty: 'অফিস অ্যাপ্লিকেশন',
+      },
+    },
+    {
+      name: 'কম্পিউটার শিক্ষক ২',
+      imgId: 'teacher2',
+      bio: {
+        education: 'বি.এস.সি ইন সি.এস.ই',
+        experience: '৭ বছরের অভিজ্ঞতা',
+        specialty: 'গ্রাফিক্স ডিজাইন',
+      },
+    },
+    {
+      name: 'মোঃ ইসাহাক আলী',
+      imgId: 'teacher3',
+      bio: {
+        education: 'ডিপ্লোমা ইন ইঞ্জিনিয়ারিং',
+        experience: '৮ বছরের অভিজ্ঞতা',
+        specialty: 'ওয়েব ডেভেলপমেন্ট',
+      },
+    },
+  ],
+  other: [
+    {
+      name: 'ড্রাইভিং ইন্সট্রাক্টর',
+      icon: <Car className="h-16 w-16 text-primary/80" />,
+      bio: {
+        experience: '১৫ বছরের ড্রাইভিং অভিজ্ঞতা',
+        specialty: 'অটোমেকানিক্স ও নিরাপদ ড্রাইভিং',
+      },
+    },
+    {
+      name: 'সহায়ক কর্মী',
+      icon: <User className="h-16 w-16 text-primary/80" />,
+      bio: {
+        experience: 'প্রতিষ্ঠানের প্রশাসনিক কাজে সহায়তা',
+      },
+    },
+  ],
+};
+
+
+const TeacherCard = ({
+  teacher,
+  onClick,
+}: {
+  teacher: TeacherInfo;
+  onClick: () => void;
 }) => {
-  const imageData = PlaceHolderImages.find((img) => img.id === imgId);
+  const imageData = PlaceHolderImages.find((img) => img.id === teacher.imgId);
 
   return (
-    <Card className="text-center transition-all hover:scale-105 hover:shadow-xl">
+    <Card
+      onClick={onClick}
+      className="cursor-pointer text-center transition-all hover:scale-105 hover:shadow-xl"
+    >
       <CardHeader>
         <div className="mx-auto mb-4 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-primary bg-secondary">
           {imageData ? (
@@ -32,13 +131,13 @@ const TeacherCard = ({
               className="h-full w-full object-cover"
             />
           ) : (
-            icon
+            teacher.icon
           )}
         </div>
-        <CardTitle>{name}</CardTitle>
-        {role && (
+        <CardTitle>{teacher.name}</CardTitle>
+        {teacher.role && (
           <CardDescription className="font-semibold text-primary">
-            {role}
+            {teacher.role}
           </CardDescription>
         )}
       </CardHeader>
@@ -47,6 +146,10 @@ const TeacherCard = ({
 };
 
 export function TeachersSection() {
+  const [selectedTeacher, setSelectedTeacher] = useState<TeacherInfo | null>(
+    null
+  );
+
   return (
     <SectionWrapper id="teachers">
       <SectionTitle fullWidth>আমাদের শিক্ষক ও পরিচালনা পর্ষদ</SectionTitle>
@@ -57,12 +160,9 @@ export function TeachersSection() {
             পরিচালনা পর্ষদ
           </h3>
           <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
-            <TeacherCard
-              name="মো: মশিফুকর রহমান (জিহাদ)"
-              role="অধ্যক্ষ"
-              imgId="principal"
-            />
-            <TeacherCard name="[পরিচালকের নাম]" role="পরিচালক" imgId="director" />
+            {teachers.board.map((teacher, i) => (
+              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+            ))}
           </div>
         </div>
 
@@ -71,9 +171,9 @@ export function TeachersSection() {
             কম্পিউটার বিভাগ
           </h3>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <TeacherCard name="কম্পিউটার শিক্ষক ১" imgId="teacher1" />
-            <TeacherCard name="কম্পিউটার শিক্ষক ২" imgId="teacher2" />
-            <TeacherCard name="কম্পিউটার শিক্ষক ৩" imgId="teacher3" />
+            {teachers.computer.map((teacher, i) => (
+              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+            ))}
           </div>
         </div>
 
@@ -82,17 +182,34 @@ export function TeachersSection() {
             অন্যান্য স্টাফ
           </h3>
           <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
-            <TeacherCard
-              name="ড্রাইভিং ইন্সট্রাক্টর"
-              icon={<Car className="h-16 w-16 text-primary/80" />}
-            />
-            <TeacherCard
-              name="সহায়ক কর্মী"
-              icon={<User className="h-16 w-16 text-primary/80" />}
-            />
+            {teachers.other.map((teacher, i) => (
+              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+            ))}
           </div>
         </div>
       </div>
+
+      <Dialog open={!!selectedTeacher} onOpenChange={(isOpen) => !isOpen && setSelectedTeacher(null)}>
+        <DialogContent className="max-w-md">
+          {selectedTeacher && (
+            <DialogHeader>
+              <DialogTitle className="text-2xl">{selectedTeacher.name}</DialogTitle>
+              {selectedTeacher.role && (
+                <DialogDescription className="text-lg font-semibold text-primary">
+                  {selectedTeacher.role}
+                </DialogDescription>
+              )}
+              <div className="pt-4 text-left">
+                <ul className="space-y-2">
+                  {selectedTeacher.bio?.education && <li><strong>শিক্ষাগত যোগ্যতা:</strong> {selectedTeacher.bio.education}</li>}
+                  {selectedTeacher.bio?.experience && <li><strong>অভিজ্ঞতা:</strong> {selectedTeacher.bio.experience}</li>}
+                  {selectedTeacher.bio?.specialty && <li><strong>বিশেষত্ব:</strong> {selectedTeacher.bio.specialty}</li>}
+                </ul>
+              </div>
+            </DialogHeader>
+          )}
+        </DialogContent>
+      </Dialog>
     </SectionWrapper>
   );
 }
