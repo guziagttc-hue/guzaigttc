@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "principal",
+      "description": "Photo of the Principal",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYWxlJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY4MzI2OTIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "male portrait"
+    },
+    {
+      "id": "director",
+      "description": "Photo of the Director",
+      "imageUrl": "https://images.unsplash.com/photo-1595211877493-41a4e5f236b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjgyNjk1ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "teacher1",
+      "description": "Photo of a computer teacher",
+      "imageUrl": "https://images.unsplash.com/photo-1590650213165-c1fef80648c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0ZWFjaGVyJTIwY2xhc3Nyb29tfGVufDB8fHx8MTc2ODMzMzYzOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "teacher classroom"
+    },
+    {
+      "id": "teacher2",
+      "description": "Photo of a computer teacher",
+      "imageUrl": "https://images.unsplash.com/photo-1752649936503-8cc3020fd7b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d29tYW4lMjB0ZWFjaGluZ3xlbnwwfHx8fDE3NjgzNjc2NTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman teaching"
+    },
+    {
+      "id": "teacher3",
+      "description": "Photo of a computer teacher",
+      "imageUrl": "https://images.unsplash.com/photo-1498758536662-35b82cd15e29?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFuJTIwY29tcHV0ZXJ8ZW58MHx8fHwxNzY4MzY3NjUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "man computer"
+    }
+  ]
 }
