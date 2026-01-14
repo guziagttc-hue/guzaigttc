@@ -21,7 +21,7 @@ export function AdmissionSection() {
       <Card className="border-t-4 border-primary shadow-xl">
         <CardContent className="p-6 md:p-8">
           <form
-            action="mailto:guzia.ttc2024@gmail.com"
+            action="mailto:guziagttc@gmail.com"
             method="post"
             encType="text/plain"
             className="space-y-6"

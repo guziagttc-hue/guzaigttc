@@ -15,10 +15,15 @@ export function Header() {
         <p className="mt-4 text-xl">
           কারিগরি শিক্ষা নিলে দেশ-বিদেশে কর্ম মিলে...
         </p>
-        <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-black/20 px-4 py-2">
+        <a
+          href="https://maps.app.goo.gl/aeSG1XPNRGks84Bt9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-black/20 px-4 py-2 transition-colors hover:bg-black/40"
+        >
           <MapPin className="h-5 w-5" />
           <span>গুজিয়া, শিবগঞ্জ, বগুড়া</span>
-        </div>
+        </a>
       </div>
       <div className="curved-header" />
     </SectionWrapper>

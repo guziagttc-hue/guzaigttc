@@ -1,4 +1,4 @@
-import { Mail, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import { SectionWrapper } from '../section-wrapper';
 
 export function Footer() {
@@ -9,7 +9,15 @@ export function Footer() {
     >
       <div className="container mx-auto py-12 px-4">
         <h2 className="text-3xl font-bold">গুজিয়া টেকনিক্যাল ট্রেনিং সেন্টার</h2>
-        <p className="mt-2 text-lg">স্থান: গুজিয়া, শিবগঞ্জ, বগুড়া।</p>
+        <a
+          href="https://maps.app.goo.gl/aeSG1XPNRGks84Bt9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 text-lg inline-flex items-center gap-2 transition-colors hover:text-primary"
+        >
+          <MapPin className="h-5 w-5" />
+          <span>স্থান: গুজিয়া, শিবগঞ্জ, বগুড়া।</span>
+        </a>
         <div className="my-8 space-y-3 text-lg">
           <a
             href="tel:01733093962"
@@ -26,11 +34,11 @@ export function Footer() {
             <span>০১৭২৩-১২৮৬৬২</span>
           </a>
           <a
-            href="mailto:guzia.ttc2024@gmail.com"
+            href="mailto:guziagttc@gmail.com"
             className="flex items-center justify-center gap-3 transition-colors hover:text-primary"
           >
             <Mail className="h-5 w-5" />
-            <span>guzia.ttc2024@gmail.com</span>
+            <span>guziagttc@gmail.com</span>
           </a>
         </div>
         <small>
