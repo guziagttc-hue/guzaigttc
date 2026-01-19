@@ -1,11 +1,19 @@
-
 'use client';
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Car, User, X } from 'lucide-react';
-import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Briefcase, Car, Cog, Laptop, Monitor, User, X } from 'lucide-react';
+import {
+  PlaceHolderImages,
+  type ImagePlaceholder,
+} from '@/lib/placeholder-images';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -39,7 +47,9 @@ const teachers: {
     {
       name: 'মো: মশিফুকর রহমান (জিহাদ)',
       role: 'অধ্যক্ষ',
-      imgId: 'principal',
+      icon: (
+        <Cog className="h-16 w-16 animate-spin text-primary/80 [animation-duration:5s]" />
+      ),
       bio: {
         education: 'বি.এস.এস (অনার্স)',
         experience: '১০ বছরের অভিজ্ঞতা',
@@ -49,7 +59,7 @@ const teachers: {
     {
       name: '[পরিচালকের নাম]',
       role: 'পরিচালক',
-      imgId: 'director',
+      icon: <Briefcase className="h-16 w-16 animate-pulse text-primary/80" />,
       bio: {
         education: 'শিক্ষাগত যোগ্যতা',
         experience: 'অভিজ্ঞতা',
@@ -60,7 +70,7 @@ const teachers: {
   computer: [
     {
       name: 'কম্পিউটার শিক্ষক ১',
-      imgId: 'teacher1',
+      icon: <Laptop className="h-16 w-16 animate-bounce text-primary/80" />,
       bio: {
         education: 'ডিপ্লোমা ইন কম্পিউটার',
         experience: '৫ বছরের অভিজ্ঞতা',
@@ -69,7 +79,7 @@ const teachers: {
     },
     {
       name: 'কম্পিউটার শিক্ষক ২',
-      imgId: 'teacher2',
+      icon: <Monitor className="h-16 w-16 animate-bounce text-primary/80" />,
       bio: {
         education: 'বি.এস.সি ইন সি.এস.ই',
         experience: '৭ বছরের অভিজ্ঞতা',
@@ -106,7 +116,6 @@ const teachers: {
     },
   ],
 };
-
 
 const TeacherCard = ({
   teacher,
@@ -164,7 +173,11 @@ export function TeachersSection() {
           </h3>
           <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
             {teachers.board.map((teacher, i) => (
-              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+              <TeacherCard
+                key={i}
+                teacher={teacher}
+                onClick={() => setSelectedTeacher(teacher)}
+              />
             ))}
           </div>
         </div>
@@ -175,7 +188,11 @@ export function TeachersSection() {
           </h3>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {teachers.computer.map((teacher, i) => (
-              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+              <TeacherCard
+                key={i}
+                teacher={teacher}
+                onClick={() => setSelectedTeacher(teacher)}
+              />
             ))}
           </div>
         </div>
@@ -186,7 +203,11 @@ export function TeachersSection() {
           </h3>
           <div className="mx-auto grid max-w-xs grid-cols-1 gap-8">
             {teachers.driving.map((teacher, i) => (
-              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+              <TeacherCard
+                key={i}
+                teacher={teacher}
+                onClick={() => setSelectedTeacher(teacher)}
+              />
             ))}
           </div>
         </div>
@@ -197,17 +218,26 @@ export function TeachersSection() {
           </h3>
           <div className="mx-auto grid max-w-xs grid-cols-1 gap-8">
             {teachers.other.map((teacher, i) => (
-              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+              <TeacherCard
+                key={i}
+                teacher={teacher}
+                onClick={() => setSelectedTeacher(teacher)}
+              />
             ))}
           </div>
         </div>
       </div>
 
-      <Dialog open={!!selectedTeacher} onOpenChange={(isOpen) => !isOpen && setSelectedTeacher(null)}>
+      <Dialog
+        open={!!selectedTeacher}
+        onOpenChange={(isOpen) => !isOpen && setSelectedTeacher(null)}
+      >
         <DialogContent className="max-w-md">
           {selectedTeacher && (
             <DialogHeader>
-              <DialogTitle className="text-2xl">{selectedTeacher.name}</DialogTitle>
+              <DialogTitle className="text-2xl">
+                {selectedTeacher.name}
+              </DialogTitle>
               {selectedTeacher.role && (
                 <DialogDescription className="text-lg font-semibold text-primary">
                   {selectedTeacher.role}
@@ -215,9 +245,22 @@ export function TeachersSection() {
               )}
               <div className="pt-4 text-left">
                 <ul className="space-y-2">
-                  {selectedTeacher.bio?.education && <li><strong>শিক্ষাগত যোগ্যতা:</strong> {selectedTeacher.bio.education}</li>}
-                  {selectedTeacher.bio?.experience && <li><strong>অভিজ্ঞতা:</strong> {selectedTeacher.bio.experience}</li>}
-                  {selectedTeacher.bio?.specialty && <li><strong>বিশেষত্ব:</strong> {selectedTeacher.bio.specialty}</li>}
+                  {selectedTeacher.bio?.education && (
+                    <li>
+                      <strong>শিক্ষাগত যোগ্যতা:</strong>{' '}
+                      {selectedTeacher.bio.education}
+                    </li>
+                  )}
+                  {selectedTeacher.bio?.experience && (
+                    <li>
+                      <strong>অভিজ্ঞতা:</strong> {selectedTeacher.bio.experience}
+                    </li>
+                  )}
+                  {selectedTeacher.bio?.specialty && (
+                    <li>
+                      <strong>বিশেষত্ব:</strong> {selectedTeacher.bio.specialty}
+                    </li>
+                  )}
                 </ul>
               </div>
             </DialogHeader>
