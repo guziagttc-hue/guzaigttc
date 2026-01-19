@@ -32,6 +32,7 @@ type TeacherInfo = {
 const teachers: {
   board: TeacherInfo[];
   computer: TeacherInfo[];
+  driving: TeacherInfo[];
   other: TeacherInfo[];
 } = {
   board: [
@@ -85,7 +86,7 @@ const teachers: {
       },
     },
   ],
-  other: [
+  driving: [
     {
       name: 'ড্রাইভিং ইন্সট্রাক্টর',
       icon: <Car className="h-16 w-16 text-primary/80" />,
@@ -94,6 +95,8 @@ const teachers: {
         specialty: 'অটোমেকানিক্স ও নিরাপদ ড্রাইভিং',
       },
     },
+  ],
+  other: [
     {
       name: 'সহায়ক কর্মী',
       icon: <User className="h-16 w-16 text-primary/80" />,
@@ -179,9 +182,20 @@ export function TeachersSection() {
 
         <div>
           <h3 className="mb-6 text-center text-2xl font-semibold text-primary">
+            ড্রাইভিং বিভাগ
+          </h3>
+          <div className="mx-auto grid max-w-xs grid-cols-1 gap-8">
+            {teachers.driving.map((teacher, i) => (
+              <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-6 text-center text-2xl font-semibold text-primary">
             অন্যান্য স্টাফ
           </h3>
-          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
+          <div className="mx-auto grid max-w-xs grid-cols-1 gap-8">
             {teachers.other.map((teacher, i) => (
               <TeacherCard key={i} teacher={teacher} onClick={() => setSelectedTeacher(teacher)} />
             ))}
