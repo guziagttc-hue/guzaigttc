@@ -12,7 +12,6 @@ import {
   Phone,
   School,
   Star,
-  Users,
   X,
 } from 'lucide-react';
 import { useScrollSpy } from '@/hooks/use-scroll-spy';
@@ -27,7 +26,6 @@ const navItems = [
   { href: '/#teachers', label: 'শিক্ষকবৃন্দ', icon: School },
   { href: '/#faq', label: 'জিজ্ঞাসা (AI)', icon: MessageCircleQuestion },
   { href: '/#admission', label: 'ভর্তি ফরম', icon: FilePenLine },
-  { href: '/admissions', label: 'ভর্তি তালিকা', icon: Users },
   { href: '/#contact', label: 'যোগাযোগ', icon: Phone },
 ];
 
