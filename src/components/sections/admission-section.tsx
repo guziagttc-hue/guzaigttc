@@ -62,35 +62,50 @@ export function AdmissionSection() {
   });
 
   const onSubmit = (values: AdmissionFormValues) => {
-    if (!db || isSending) {
-      return;
-    }
-
+    if (isSending) return;
     setIsSending(true);
 
-    addDoc(collection(db, 'admissions'), {
-      ...values,
-      createdAt: serverTimestamp(),
-    })
-      .then(() => {
-        toast({
-          title: 'সফল হয়েছে',
-          description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
-        });
-        form.reset();
-        router.push('/admissions');
-      })
-      .catch((error) => {
-        console.error('Error adding document: ', error);
+    // Save to Firestore, but don't wait for it.
+    if (db) {
+      addDoc(collection(db, 'admissions'), {
+        ...values,
+        createdAt: serverTimestamp(),
+      }).catch((error) => {
+        console.error('Error adding document to Firestore: ', error);
+        // Optionally show a non-blocking toast to the user
         toast({
           variant: 'destructive',
           title: 'ত্রুটি',
-          description: 'আবেদন জমা দেওয়ার সময় একটি সমস্যা হয়েছে।',
+          description: 'ডেটাবেস সংরক্ষণে একটি সমস্যা হয়েছে।',
         });
-      })
-      .finally(() => {
-        setIsSending(false);
       });
+    }
+
+    // Prepare and open mailto link
+    const recipient = 'guziagttc@gmail.com';
+    const subject = 'নতুন ভর্তির আবেদন (New Admission Application)';
+    const body = [
+      `Student Name: ${values.studentName}`,
+      `Father's Name: ${values.fatherName}`,
+      `Mobile Number: ${values.mobileNumber}`,
+      `Age: ${values.age}`,
+      `Education: ${values.education || 'N/A'}`,
+      `Course: ${values.course}`,
+      `Address: ${values.address || 'N/A'}`,
+    ].join('\r\n');
+
+    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+
+    form.reset();
+
+    // The user will be taken to their email client.
+    // The `isSending` state will be reset when they return.
+    // We can set a timeout to reset it in case the redirect fails.
+    setTimeout(() => setIsSending(false), 1000);
   };
 
   return (
@@ -230,7 +245,7 @@ export function AdmissionSection() {
                 {isSending && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                {isSending ? 'পাঠানো হচ্ছে...' : 'আবেদন পাঠান'}
+                {isSending ? 'প্রসেস করা হচ্ছে...' : 'আবেদন পাঠান'}
               </Button>
             </form>
           </Form>
