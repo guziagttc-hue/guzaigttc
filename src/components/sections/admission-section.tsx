@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -44,6 +45,7 @@ type AdmissionFormValues = z.infer<typeof admissionSchema>;
 export function AdmissionSection() {
   const db = useFirestore();
   const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionSchema),
     defaultValues: {
@@ -72,6 +74,13 @@ export function AdmissionSection() {
     addDoc(collection(db, 'admissions'), {
       ...values,
       createdAt: serverTimestamp(),
+    }).then(() => {
+        toast({
+          title: 'সফল হয়েছে',
+          description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
+        });
+        form.reset();
+        router.push('/admissions');
     }).catch((error) => {
       console.error('Error adding document: ', error);
       toast({
@@ -80,12 +89,6 @@ export function AdmissionSection() {
         description: 'আবেদন জমা দেওয়ার সময় একটি সমস্যা হয়েছে।',
       });
     });
-
-    toast({
-      title: 'সফল হয়েছে',
-      description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
-    });
-    form.reset();
   };
 
   return (
