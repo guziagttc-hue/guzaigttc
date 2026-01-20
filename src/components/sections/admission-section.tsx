@@ -59,7 +59,7 @@ export function AdmissionSection() {
 
   const { isSubmitting } = form.formState;
 
-  const onSubmit = async (values: AdmissionFormValues) => {
+  const onSubmit = (values: AdmissionFormValues) => {
     if (!db) {
         toast({
             variant: 'destructive',
@@ -68,24 +68,24 @@ export function AdmissionSection() {
         });
         return;
     }
-    try {
-      await addDoc(collection(db, 'admissions'), {
-        ...values,
-        createdAt: serverTimestamp(),
-      });
-      toast({
-        title: 'সফল হয়েছে',
-        description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
-      });
-      form.reset();
-    } catch (error) {
+
+    addDoc(collection(db, 'admissions'), {
+      ...values,
+      createdAt: serverTimestamp(),
+    }).catch((error) => {
       console.error('Error adding document: ', error);
       toast({
         variant: 'destructive',
         title: 'ত্রুটি',
         description: 'আবেদন জমা দেওয়ার সময় একটি সমস্যা হয়েছে।',
       });
-    }
+    });
+
+    toast({
+      title: 'সফল হয়েছে',
+      description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
+    });
+    form.reset();
   };
 
   return (
