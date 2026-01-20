@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -46,6 +47,7 @@ export function AdmissionSection() {
   const db = useFirestore();
   const { toast } = useToast();
   const router = useRouter();
+  const [isSending, setIsSending] = useState(false);
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionSchema),
     defaultValues: {
@@ -59,37 +61,36 @@ export function AdmissionSection() {
     },
   });
 
-  const { isSubmitting } = form.formState;
+  const onSubmit = (values: AdmissionFormValues) => {
+    if (!db || isSending) {
+      return;
+    }
 
-  const onSubmit = async (values: AdmissionFormValues) => {
-    if (!db) {
+    setIsSending(true);
+
+    addDoc(collection(db, 'admissions'), {
+      ...values,
+      createdAt: serverTimestamp(),
+    })
+      .then(() => {
         toast({
-            variant: 'destructive',
-            title: 'ত্রুটি',
-            description: 'ডাটাবেস সংযোগ স্থাপন করা যায়নি।',
+          title: 'সফল হয়েছে',
+          description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
         });
-        return;
-    }
-
-    try {
-      await addDoc(collection(db, 'admissions'), {
-        ...values,
-        createdAt: serverTimestamp(),
+        form.reset();
+        router.push('/admissions');
+      })
+      .catch((error) => {
+        console.error('Error adding document: ', error);
+        toast({
+          variant: 'destructive',
+          title: 'ত্রুটি',
+          description: 'আবেদন জমা দেওয়ার সময় একটি সমস্যা হয়েছে।',
+        });
+      })
+      .finally(() => {
+        setIsSending(false);
       });
-      toast({
-        title: 'সফল হয়েছে',
-        description: 'আপনার আবেদন সফলভাবে জমা হয়েছে।',
-      });
-      form.reset();
-      router.push('/admissions');
-    } catch (error) {
-      console.error('Error adding document: ', error);
-      toast({
-        variant: 'destructive',
-        title: 'ত্রুটি',
-        description: 'আবেদন জমা দেওয়ার সময় একটি সমস্যা হয়েছে।',
-      });
-    }
   };
 
   return (
@@ -174,7 +175,11 @@ export function AdmissionSection() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>কোর্স সিলেক্ট করুন:</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="একটি কোর্স সিলেক্ট করুন" />
@@ -219,11 +224,13 @@ export function AdmissionSection() {
               />
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSending}
                 className="w-full bg-[hsl(var(--dark-blue-hsl))] py-6 text-lg font-bold text-white hover:bg-primary"
               >
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                আবেদন পাঠান
+                {isSending && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isSending ? 'পাঠানো হচ্ছে...' : 'আবেদন পাঠান'}
               </Button>
             </form>
           </Form>
