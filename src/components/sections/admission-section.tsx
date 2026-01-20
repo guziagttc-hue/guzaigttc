@@ -65,14 +65,14 @@ export function AdmissionSection() {
     if (isSending) return;
     setIsSending(true);
 
-    // Save to Firestore, but don't wait for it.
+    // Save to Firestore in the background
     if (db) {
       addDoc(collection(db, 'admissions'), {
         ...values,
         createdAt: serverTimestamp(),
       }).catch((error) => {
         console.error('Error adding document to Firestore: ', error);
-        // Optionally show a non-blocking toast to the user
+        // This toast might be shown if the mailto link fails to open or is slow
         toast({
           variant: 'destructive',
           title: 'ত্রুটি',
@@ -81,7 +81,7 @@ export function AdmissionSection() {
       });
     }
 
-    // Prepare and open mailto link
+    // Prepare mailto link
     const recipient = 'guziagttc@gmail.com';
     const subject = 'নতুন ভর্তির আবেদন (New Admission Application)';
     const body = [
@@ -98,14 +98,12 @@ export function AdmissionSection() {
       subject
     )}&body=${encodeURIComponent(body)}`;
 
-    window.location.href = mailtoLink;
-
-    form.reset();
-
-    // The user will be taken to their email client.
-    // The `isSending` state will be reset when they return.
-    // We can set a timeout to reset it in case the redirect fails.
-    setTimeout(() => setIsSending(false), 1000);
+    // Give a bit of time for other operations and then open email client
+    setTimeout(() => {
+      window.location.href = mailtoLink;
+      setIsSending(false);
+      form.reset();
+    }, 500); // 500ms delay
   };
 
   return (
